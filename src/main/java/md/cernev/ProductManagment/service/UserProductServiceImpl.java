@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class UserProductServiceImpl implements UserProductService {
-    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(UserProductServiceImpl.class);
     @Autowired
     private UsersProductsRepository usersProductsRepository;
 
@@ -38,6 +38,29 @@ public class UserProductServiceImpl implements UserProductService {
             usersProductsRepository.save(products);
         }
         log.info("User(ID={}, login={}) bought product \"{}\" with success.", user.getId(), user.getLogin(), product.getName());
+        return true;
+    }
+
+    @Override
+    public boolean wasSold(User user, Product product) {
+        UserProductKey key = new UserProductKey(user.getId(), product.getId());
+        Optional<UsersProducts> usersProducts = usersProductsRepository.findById(key);
+        if (!usersProducts.isPresent()) {
+            log.warn("User '{}' does not have products '{}'.", user.getLogin(), product.getName());
+            return false;
+        } else {
+            UsersProducts products = usersProducts.get();
+            if (products.getQuantity() == 0) {
+                log.warn("User '{}' does not have products '{}'.", user.getLogin(), product.getName());
+                return false;
+            } else {
+                product.setStock(product.getStock() + 1);
+                user.setWallet(user.getWallet() + product.getPrice());
+                products.setQuantity(products.getQuantity() - 1);
+                usersProductsRepository.save(products);
+            }
+        }
+        log.info("User(ID={}, login={}) sold product \"{}\" with success.", user.getId(), user.getLogin(), product.getName());
         return true;
     }
 }

@@ -31,6 +31,8 @@
                 <tr>
                     <td>${product.product.name}</td>
                     <td>${product.quantity}</td>
+                    <td><a href="<c:url value='/sell/${user.id}/${product.product.id}'/>"
+                           class="btn btn-danger">Sell</a></td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -13,5 +13,7 @@ public interface ProductService {
 
     boolean buy(int userId, int productId);
 
+    boolean sell(int userId, int productId);
+
     boolean isExist(Product product);
 }

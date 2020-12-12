@@ -52,6 +52,12 @@ public class ProductController {
         return "redirect:/products/" + userService.getUser(userId).get().getLogin();
     }
 
+    @GetMapping("/sell/{userId}/{productId}")
+    public String sellProduct(@PathVariable("userId") Integer userId, @PathVariable("productId") Integer productId, Model model) {
+        boolean sell = productService.sell(userId, productId);
+        return "redirect:/products/" + userService.getUser(userId).get().getLogin();
+    }
+
 
     @GetMapping("/product")
     public String addProduct(Model model) {

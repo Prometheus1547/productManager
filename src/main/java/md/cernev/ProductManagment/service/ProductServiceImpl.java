@@ -60,6 +60,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean sell(int userId, int productId) {
+        Optional<User> optionalUser = userService.getUser(userId);
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (!optionalUser.isPresent() || !optionalProduct.isPresent()) {
+            log.warn("User with ID={} or product with ID={} does not exists!.", userId, productId);
+            return false;
+        }
+        User user = optionalUser.get();
+        Product product = optionalProduct.get();
+
+        return userProductService.wasSold(user, product);
+    }
+
+    @Override
     public boolean isExist(Product product) {
         return productRepository.findById(product.getId()).isPresent() || productRepository.findByName(product.getName()).isPresent();
     }
