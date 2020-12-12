@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserServiceUnitTests {
+public class UserServiceImplUnitTests {
 
     @Autowired
     private UserService userService;
