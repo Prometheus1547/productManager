@@ -1,5 +1,7 @@
 package md.cernev.ProductManagment.entities;
 
+import md.cernev.ProductManagment.utils.Utils;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -66,6 +68,10 @@ public class UsersProducts {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getSailingPrice() {
+        return product.getPrice() * Utils.SALES_RATIO;
     }
 
 

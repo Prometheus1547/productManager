@@ -26,7 +26,7 @@ public class User implements UserDetails {
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "WALLET")
-    private int wallet;
+    private double wallet;
 
 
     @OneToMany(mappedBy = "user")
@@ -48,11 +48,11 @@ public class User implements UserDetails {
         this.login = login;
     }
 
-    public int getWallet() {
+    public double getWallet() {
         return wallet;
     }
 
-    public void setWallet(int wallet) {
+    public void setWallet(double wallet) {
         this.wallet = wallet;
     }
 

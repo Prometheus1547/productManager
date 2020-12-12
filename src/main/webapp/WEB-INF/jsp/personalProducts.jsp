@@ -1,3 +1,4 @@
+<%@ page import="md.cernev.ProductManagment.utils.Utils" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -22,6 +23,7 @@
             <tr>
                 <th>Name</th>
                 <th>Quantity</th>
+                <th>Price</th>
 
                 <th width="100"></th>
             </tr>
@@ -31,11 +33,12 @@
                 <tr>
                     <td>${product.product.name}</td>
                     <td>${product.quantity}</td>
+                    <td>${product.sailingPrice}</td>
                     <td>
                         <c:choose>
                         <c:when test="${product.quantity>0}">
-                        <a href="<c:url value='/sell/${user.id}/${product.product.id}'/>"
-                           class="btn btn-danger">Sell</a>
+                        <a href="<c:url value='/sell/${user.id}/${product.product.id}'/>" class="btn btn-danger"
+                           data-toggle="tooltip" title="Warning!The selling price is lower than actual.">Sell</a>
                         </c:when>
                         <c:otherwise>
                         <a href="<c:url value='/sell/${user.id}/${product.product.id}'/>" class="btn disabled" disabled>Sell</a>

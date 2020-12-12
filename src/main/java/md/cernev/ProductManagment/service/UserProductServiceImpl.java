@@ -5,6 +5,7 @@ import md.cernev.ProductManagment.entities.User;
 import md.cernev.ProductManagment.entities.UserProductKey;
 import md.cernev.ProductManagment.entities.UsersProducts;
 import md.cernev.ProductManagment.repository.UsersProductsRepository;
+import md.cernev.ProductManagment.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class UserProductServiceImpl implements UserProductService {
                 return false;
             } else {
                 product.setStock(product.getStock() + 1);
-                user.setWallet(user.getWallet() + product.getPrice());
+                user.setWallet(user.getWallet() + product.getPrice() * Utils.SALES_RATIO);
                 products.setQuantity(products.getQuantity() - 1);
                 usersProductsRepository.save(products);
             }
