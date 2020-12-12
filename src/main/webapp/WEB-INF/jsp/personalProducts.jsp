@@ -31,8 +31,16 @@
                 <tr>
                     <td>${product.product.name}</td>
                     <td>${product.quantity}</td>
-                    <td><a href="<c:url value='/sell/${user.id}/${product.product.id}'/>"
-                           class="btn btn-danger">Sell</a></td>
+                    <td>
+                        <c:choose>
+                        <c:when test="${product.quantity>0}">
+                        <a href="<c:url value='/sell/${user.id}/${product.product.id}'/>"
+                           class="btn btn-danger">Sell</a>
+                        </c:when>
+                        <c:otherwise>
+                        <a href="<c:url value='/sell/${user.id}/${product.product.id}'/>" class="btn disabled" disabled>Sell</a>
+                        </c:otherwise>
+                        </c:choose>
                 </tr>
             </c:forEach>
             </tbody>
@@ -58,7 +66,16 @@
                     <td>${product.price}</td>
                     <td>${product.stock}</td>
                     <td>${product.creationTime}</td>
-                    <td><a href="<c:url value='/buy/${user.id}/${product.id}'/>" class="btn btn-success">Buy</a></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${product.stock>0}">
+                                <a href="<c:url value='/buy/${user.id}/${product.id}'/>" class="btn btn-success">Buy</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="<c:url value='/buy/${user.id}/${product.id}'/>" class="btn disabled" disabled>Buy</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
