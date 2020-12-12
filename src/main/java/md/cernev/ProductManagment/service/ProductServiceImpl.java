@@ -3,6 +3,8 @@ package md.cernev.ProductManagment.service;
 import md.cernev.ProductManagment.entities.Product;
 import md.cernev.ProductManagment.entities.User;
 import md.cernev.ProductManagment.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Autowired
     private ProductRepository productRepository;
@@ -37,6 +41,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean saveProduct(Product product) {
         productRepository.save(product);
+        log.info("Successful save product with ID={} and Name={}", product.getId(), product.getName());
         return true;
     }
 
@@ -45,11 +50,11 @@ public class ProductServiceImpl implements ProductService {
         Optional<User> optionalUser = userService.getUser(userId);
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (!optionalUser.isPresent() || !optionalProduct.isPresent()) {
+            log.warn("User with ID={} or product with ID={} does not exists!.", userId, productId);
             return false;
         }
         User user = optionalUser.get();
         Product product = optionalProduct.get();
-
 
         return userProductService.wasBought(user, product);
     }

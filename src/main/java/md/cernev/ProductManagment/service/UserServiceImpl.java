@@ -2,6 +2,8 @@ package md.cernev.ProductManagment.service;
 
 import md.cernev.ProductManagment.entities.User;
 import md.cernev.ProductManagment.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +15,8 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -36,10 +40,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean saveUser(User user) {
         if (userRepository.findUserByLogin(user.getLogin()).isPresent()) {
+            log.warn("User with login '{}' already exists.", user.getLogin());
             return false;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        log.info("Successful saved user '{}'.", user.getLogin());
         return true;
     }
 
